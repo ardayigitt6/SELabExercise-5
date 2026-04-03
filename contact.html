@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — Informatics Club</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* CONTACT LAYOUT */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border);
+    }
+
+    /* FORM SIDE */
+    .form-block { background: var(--card); padding: 56px 52px; }
+    .form-block h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+    .form-block .form-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 36px; line-height: 1.6; }
+
+    .form-group { margin-bottom: 22px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px; }
+    label {
+      display: block; margin-bottom: 8px;
+      font-family: 'Space Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    }
+    input, textarea, select {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.93rem;
+      padding: 14px 16px; border-radius: 2px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,229,255,0.08);
+    }
+    input::placeholder, textarea::placeholder { color: #3a4a6a; }
+    textarea { resize: vertical; min-height: 130px; }
+    select { cursor: pointer; }
+    select option { background: var(--surface); }
+
+    .form-submit {
+      width: 100%; padding: 16px; border-radius: 4px;
+      background: var(--accent); color: var(--bg);
+      font-family: 'Space Mono', monospace; font-size: 0.85rem;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      box-shadow: 0 0 24px rgba(0,229,255,0.35);
+      transition: all 0.25s; margin-top: 8px;
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,229,255,0.55); }
+
+    /* INFO SIDE */
+    .info-block { background: var(--surface); padding: 56px 52px; display: flex; flex-direction: column; gap: 0; }
+    .info-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent3);
+      letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .info-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent3); }
+    .info-block h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+    .info-block > p { color: var(--muted); font-size: 0.93rem; line-height: 1.8; margin-bottom: 40px; }
+
+    .contact-items { display: flex; flex-direction: column; gap: 2px; background: var(--border); margin-bottom: 36px; }
+    .contact-item {
+      background: var(--card); padding: 22px 24px;
+      display: flex; gap: 18px; align-items: flex-start; transition: background 0.2s;
+    }
+    .contact-item:hover { background: var(--bg); }
+    .ci-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .ci-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .ci-value { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+    .ci-value a { color: var(--accent); text-decoration: none; }
+    .ci-value a:hover { text-decoration: underline; }
+
+    .social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); }
+    .social-card {
+      background: var(--card); padding: 20px 16px; text-align: center;
+      transition: background 0.2s; text-decoration: none; color: var(--text);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .social-card:hover { background: var(--bg); color: var(--accent); }
+    .social-card .s-icon { font-size: 1.4rem; }
+    .social-card .s-name { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: inherit; }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
+    .faq-item { background: var(--card); overflow: hidden; }
+    .faq-question {
+      padding: 26px 36px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s; user-select: none;
+    }
+    .faq-question:hover { background: var(--surface); }
+    .faq-toggle {
+      font-family: 'Space Mono', monospace; font-size: 1rem;
+      color: var(--accent); flex-shrink: 0; transition: transform 0.3s;
+    }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s;
+      padding: 0 36px; color: var(--muted); font-size: 0.9rem; line-height: 1.75;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 36px 26px; }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-item.open .faq-question { background: var(--surface); }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none; text-align: center; padding: 40px;
+      background: var(--surface); border: 1px solid var(--accent3); border-radius: 2px;
+    }
+    .success-msg .s-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .success-msg h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+    .success-msg p { color: var(--muted); font-size: 0.9rem; }
+
+    @media(max-width:900px){
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-block, .info-block { padding: 36px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .social-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <nav>
+    <a class="nav-logo" href="index.html"><div class="nav-dot"></div><span>INFO</span>MATICS<span>_CLUB</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Get in touch</div>
+    <h1>Say<br/><em>Hello</em></h1>
+    <p class="hero-desc">Whether you want to join, collaborate, ask a question, or just explore — we'd love to hear from you. We typically respond within 24 hours.</p>
+  </section>
+
+  <!-- CONTACT GRID -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">01</span><h2>Contact Us</h2></div>
+    <div class="contact-grid">
+
+      <!-- FORM -->
+      <div class="form-block">
+        <h3>Send us a message</h3>
+        <p class="form-sub">Fill in the form and we'll get back to you as soon as possible.</p>
+        <div id="contact-form">
+          <div class="form-row">
+            <div>
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" placeholder="e.g. Ayşe"/>
+            </div>
+            <div>
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" placeholder="e.g. Kaya"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="your@university.edu"/>
+          </div>
+          <div class="form-group">
+            <label for="subject">I want to...</label>
+            <select id="subject">
+              <option value="" disabled selected>Select a reason</option>
+              <option>Join the club</option>
+              <option>Ask about a program / track</option>
+              <option>Propose a collaboration</option>
+              <option>Speak at an event</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell us a bit about yourself or your question..."></textarea>
+          </div>
+          <button class="form-submit" onclick="handleSubmit()">→ Send Message</button>
+        </div>
+        <div class="success-msg" id="success-msg">
+          <div class="s-icon">✅</div>
+          <h4>Message sent!</h4>
+          <p>Thanks for reaching out. We'll reply to your email within 24 hours.</p>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="info-block">
+        <div class="info-eyebrow">Find us</div>
+        <h3>We're always around.</h3>
+        <p>Come to any of our weekly meetups, reach us online, or drop by our campus room. We're friendly — promise.</p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <span class="ci-icon">📍</span>
+            <div><div class="ci-label">Location</div><div class="ci-value">Engineering Building, Room B-204<br/>University Campus</div></div>
+          </div>
+          <div class="contact-item">
+            <span class="ci-icon">📅</span>
+            <div><div class="ci-label">Weekly Meetup</div><div class="ci-value">Every Wednesday, 18:00 – 20:00</div></div>
+          </div>
+          <div class="contact-item">
+            <span class="ci-icon">✉️</span>
+            <div><div class="ci-label">Email</div><div class="ci-value"><a href="mailto:info@informaticsclub.edu">info@informaticsclub.edu</a></div></div>
+          </div>
+          <div class="contact-item">
+            <span class="ci-icon">💬</span>
+            <div><div class="ci-label">Discord</div><div class="ci-value"><a href="#">discord.gg/informaticsclub</a></div></div>
+          </div>
+        </div>
+
+        <div class="social-grid">
+          <a class="social-card" href="#"><span class="s-icon">🐙</span><span class="s-name">GitHub</span></a>
+          <a class="social-card" href="#"><span class="s-icon">💼</span><span class="s-name">LinkedIn</span></a>
+          <a class="social-card" href="#"><span class="s-icon">📸</span><span class="s-name">Instagram</span></a>
+          <a class="social-card" href="#"><span class="s-icon">🎮</span><span class="s-name">Discord</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <div class="section-head"><span class="section-num">02</span><h2>FAQ</h2></div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Is membership free?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Yes — completely free. There are no dues, no fees, and no hidden costs. All workshops, events, and sessions are open to registered members at no charge.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Do I need prior experience to join?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Not at all. We welcome everyone from complete beginners to advanced students. Our tracks are designed to meet you where you are — just show up curious.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Can I join multiple tracks?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Absolutely. There's no limit to how many tracks you participate in. Many members attend both algorithm sessions and web development workshops each week.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Is the club only for CS students?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">No. While most members study CS or Software Engineering, we welcome students from any department. A curiosity for technology is all you need.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">How do I sign up?<span class="faq-toggle">+</span></div>
+        <div class="faq-answer">Fill out the contact form on this page, send us an email, or just show up to a Wednesday meetup at B-204. We'll handle the rest from there.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left"><strong>Informatics Club</strong> — Building the next generation of problem solvers.<br/><span style="margin-top:4px;display:block;">© 2026 · All rights reserved</span></div>
+    <div class="footer-socials">
+      <a class="social-link" href="#">GH</a>
+      <a class="social-link" href="#">LI</a>
+      <a class="social-link" href="#">IG</a>
+      <a class="social-link" href="#">DC</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    function handleSubmit() {
+      const fname = document.getElementById('fname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value.trim();
+      if (!fname || !email || !subject || !message) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
