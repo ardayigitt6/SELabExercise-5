@@ -1,52 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Informatics</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Informatics Club</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ---- ABOUT-SPECIFIC ---- */
+    .stats-row {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border);
+      max-width: 1100px; margin: 0 auto 80px;
+    }
+    .stat {
+      background: var(--surface); padding: 36px 32px;
+      opacity: 0; animation: fadeUp 0.6s forwards;
+    }
+    .stat:nth-child(1){animation-delay:0.5s} .stat:nth-child(2){animation-delay:0.65s}
+    .stat:nth-child(3){animation-delay:0.8s} .stat:nth-child(4){animation-delay:0.95s}
+    .stat-num { font-family:'Space Mono',monospace; font-size:2.8rem; font-weight:700; color:var(--accent); line-height:1; }
+    .stat-label { margin-top:8px; font-size:0.85rem; color:var(--muted); font-weight:600; }
+
+    .mission-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; background: var(--border);
+    }
+    .mission-card {
+      background: var(--card); padding: 48px 44px;
+      position: relative; overflow: hidden; transition: background 0.3s;
+    }
+    .mission-card:hover { background: var(--surface); }
+    .mission-card::before {
+      content:''; position:absolute; top:0; left:0; width:3px; height:100%;
+      background:var(--accent); transform:scaleY(0); transition:transform 0.3s; transform-origin:bottom;
+    }
+    .mission-card:hover::before { transform:scaleY(1); }
+    .mission-icon { font-size:2rem; margin-bottom:20px; display:block; }
+    .mission-card h3 { font-size:1.2rem; font-weight:700; margin-bottom:14px; }
+    .mission-card p { color:var(--muted); line-height:1.75; font-size:0.95rem; }
+
+    .activities-list { display:flex; flex-direction:column; gap:2px; background:var(--border); }
+    .activity-item {
+      background:var(--card); padding:32px 40px;
+      display:flex; align-items:center; gap:40px; transition:background 0.25s;
+    }
+    .activity-item:hover { background:var(--surface); }
+    .activity-num { font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--border); font-weight:700; flex-shrink:0; width:28px; }
+    .activity-name { font-size:1.1rem; font-weight:700; flex:0 0 200px; }
+    .activity-desc { color:var(--muted); font-size:0.9rem; line-height:1.6; }
+    .activity-badge {
+      margin-left:auto; flex-shrink:0;
+      font-family:'Space Mono',monospace; font-size:0.65rem;
+      letter-spacing:0.1em; padding:6px 14px; border-radius:40px; border:1px solid;
+    }
+    .badge-green { border-color:var(--accent3); color:var(--accent3); }
+    .badge-blue  { border-color:var(--accent); color:var(--accent); }
+    .badge-purple{ border-color:var(--accent2); color:var(--accent2); }
+
+    .timeline { display:flex; flex-direction:column; gap:2px; background:var(--border); }
+    .tl-item {
+      background:var(--card); padding:36px 40px;
+      display:grid; grid-template-columns:120px 1fr; gap:32px; align-items:start;
+      transition:background 0.3s;
+    }
+    .tl-item:hover { background:var(--surface); }
+    .tl-year { font-family:'Space Mono',monospace; font-size:1.2rem; font-weight:700; color:var(--accent); }
+    .tl-content h4 { font-size:1rem; font-weight:700; margin-bottom:8px; }
+    .tl-content p { color:var(--muted); font-size:0.88rem; line-height:1.65; }
+
+    @media(max-width:900px){
+      .stats-row { grid-template-columns:1fr 1fr; }
+      .mission-grid { grid-template-columns:1fr; }
+      .activity-item { flex-wrap:wrap; gap:12px; }
+      .activity-name { flex:auto; }
+      .activity-badge { margin-left:0; }
+      .tl-item { grid-template-columns:1fr; gap:8px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
-<header>
-    <h1>Informatics</h1>
-    <p>Innovative Technology for the Future</p>
-</header>
+  <nav>
+    <a class="nav-logo" href="index.html"><div class="nav-dot"></div><span>INFO</span>MATICS<span>_CLUB</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="team.html">Team</a>
-    <a href="contact.html">Contact</a>
-</nav>
+  <section class="hero">
+    <div class="hero-tag">About us</div>
+    <h1>We are the<br/><em>Informatics Club</em></h1>
+    <p class="hero-desc">A student-led community of curious minds passionate about data, systems, algorithms, and the intersection of technology with the real world. We learn together, build together, and compete together.</p>
+    <div class="hero-cta">
+      <a href="contact.html" class="btn btn-primary">→ Join the Club</a>
+      <a href="services.html" class="btn btn-outline">View Services</a>
+    </div>
+  </section>
 
-<section>
-    <h2>About Informatics</h2>
-    <p>
-        Informatics is a technology-focused organization created as part of a 
-        Software Engineering Lab project. The goal of Informatics is to develop 
-        innovative and modern software solutions using the latest technologies.
-    </p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Active Members</div></div>
+    <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Events per Year</div></div>
+    <div class="stat"><div class="stat-num">15</div><div class="stat-label">Awards Won</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Years Running</div></div>
+  </div>
 
-    <p>
-        Our team works on different areas of computer science such as web 
-        development, software engineering, artificial intelligence, and cloud 
-        computing. Through collaboration and teamwork, Informatics aims to 
-        design reliable and efficient technological solutions.
-    </p>
+  <div class="section">
+    <div class="section-head"><span class="section-num">01</span><h2>Our Mission</h2></div>
+    <div class="mission-grid">
+      <div class="mission-card"><span class="mission-icon">🔬</span><h3>Explore & Discover</h3><p>We dive deep into informatics — from theoretical foundations to cutting-edge applications in AI, databases, and network systems.</p></div>
+      <div class="mission-card"><span class="mission-icon">🤝</span><h3>Collaborate & Build</h3><p>Every great product starts with a great team. We pair curious people together for hackathons, research, and real-world projects.</p></div>
+      <div class="mission-card"><span class="mission-icon">🏆</span><h3>Compete & Excel</h3><p>We represent our university in national and international olympiads, coding challenges, and informatics competitions.</p></div>
+      <div class="mission-card"><span class="mission-icon">🌱</span><h3>Grow Together</h3><p>Beginners are as welcome as experts. We host workshops, mentorship programs, and study groups at every level.</p></div>
+    </div>
+  </div>
 
-    <p>
-        This website represents our team project and demonstrates how a group 
-        of developers can work together using version control systems like Git 
-        and collaborative tools such as GitHub.
-    </p>
-</section>
+  <div class="section">
+    <div class="section-head"><span class="section-num">02</span><h2>What We Do</h2></div>
+    <div class="activities-list">
+      <div class="activity-item">
+        <span class="activity-num">01</span>
+        <span class="activity-name">Weekly Meetups</span>
+        <span class="activity-desc">Structured sessions covering algorithms, data structures, problem-solving techniques, and guest speaker talks.</span>
+        <span class="activity-badge badge-green">Weekly</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-num">02</span>
+        <span class="activity-name">Hackathons</span>
+        <span class="activity-desc">48-hour intensive building events where teams prototype real solutions to real problems under real pressure.</span>
+        <span class="activity-badge badge-blue">Semester</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-num">03</span>
+        <span class="activity-name">Competitive Programming</span>
+        <span class="activity-desc">Training camps and mock contests to prepare members for Codeforces, LeetCode, ICPC, and national olympiads.</span>
+        <span class="activity-badge badge-green">Ongoing</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-num">04</span>
+        <span class="activity-name">Research Projects</span>
+        <span class="activity-desc">Collaborative research on ML, data analysis, and systems — with opportunities to publish or present.</span>
+        <span class="activity-badge badge-purple">Year-round</span>
+      </div>
+      <div class="activity-item">
+        <span class="activity-num">05</span>
+        <span class="activity-name">Industry Workshops</span>
+        <span class="activity-desc">Hands-on sessions with tools used in modern tech companies, led by industry professionals.</span>
+        <span class="activity-badge badge-blue">Monthly</span>
+      </div>
+    </div>
+  </div>
 
-<footer>
-    <p>© 2026 Informatics</p>
-</footer>
+  <div class="section">
+    <div class="section-head"><span class="section-num">03</span><h2>Our History</h2></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2020</div>
+        <div class="tl-content"><h4>Club Founded</h4><p>Started by 8 CS students who wanted a place to practice competitive programming outside of class. First official meetup held in Room A-101.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <div class="tl-content"><h4>First Hackathon</h4><p>InfoHack v1 — 32 participants, 8 teams, one weekend. The winning team built a real-time campus bus tracker still in use today.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022</div>
+        <div class="tl-content"><h4>National Recognition</h4><p>Two members placed in the top 10 at the National Informatics Olympiad. The club expanded to 6 active program tracks.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023</div>
+        <div class="tl-content"><h4>Industry Partnerships</h4><p>Signed collaboration agreements with 3 tech companies for workshops, internship referrals, and sponsored events.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024–25</div>
+        <div class="tl-content"><h4>Growth & Research</h4><p>Membership passed 100. Two research papers co-authored by members were submitted to international conferences.</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026</div>
+        <div class="tl-content"><h4>Now</h4><p>120+ members across 6 tracks. InfoHack 2026 is our biggest event yet — and we're just getting started.</p></div>
+      </div>
+    </div>
+  </div>
 
+  <footer>
+    <div class="footer-left"><strong>Informatics Club</strong> — Building the next generation of problem solvers.<br/><span style="margin-top:4px;display:block;">© 2026 · All rights reserved</span></div>
+    <div class="footer-socials">
+      <a class="social-link" href="#" title="GitHub">GH</a>
+      <a class="social-link" href="#" title="LinkedIn">LI</a>
+      <a class="social-link" href="#" title="Instagram">IG</a>
+      <a class="social-link" href="#" title="Discord">DC</a>
+    </div>
+  </footer>
 </body>
 </html>
+ 
