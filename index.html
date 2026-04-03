@@ -1,56 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informatics</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Informatics Club</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ---- INDEX-SPECIFIC ---- */
+
+    /* HERO FULL SCREEN */
+    .home-hero {
+      position: relative; z-index: 1;
+      min-height: 92vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 60px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .home-hero h1 {
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800; line-height: 1.0; letter-spacing: -0.03em;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .home-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .home-hero .subtitle {
+      margin-top: 32px; max-width: 540px;
+      font-size: 1.15rem; color: var(--muted); line-height: 1.75;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .home-hero .cta-row {
+      margin-top: 48px; display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 60px;
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
+    }
+    .scroll-hint::before { content: ''; width: 40px; height: 1px; background: var(--border); }
+
+    /* STATS STRIP */
+    .stats-strip {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item {
+      background: var(--surface); padding: 36px 40px;
+      opacity: 0; animation: fadeUp 0.6s forwards;
+    }
+    .stat-item:nth-child(1){animation-delay:0.5s}
+    .stat-item:nth-child(2){animation-delay:0.65s}
+    .stat-item:nth-child(3){animation-delay:0.8s}
+    .stat-item:nth-child(4){animation-delay:0.95s}
+    .stat-num {
+      font-family: 'Space Mono', monospace; font-size: 2.8rem;
+      font-weight: 700; color: var(--accent); line-height: 1;
+    }
+    .stat-label { margin-top: 8px; font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      position: relative; z-index: 1;
+      overflow: hidden; border-bottom: 1px solid var(--border);
+      background: var(--surface); padding: 14px 0;
+    }
+    .marquee-track {
+      display: flex; gap: 48px; width: max-content;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+      font-family: 'Space Mono', monospace; font-size: 0.72rem;
+      color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase;
+      white-space: nowrap; display: flex; align-items: center; gap: 48px;
+    }
+    .marquee-item::after { content: '✦'; color: var(--accent); }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SERVICES PREVIEW */
+    .services-preview {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; background: var(--border);
+    }
+    .preview-card {
+      background: var(--card); padding: 40px 36px;
+      position: relative; overflow: hidden; transition: background 0.3s;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .preview-card:hover { background: var(--surface); }
+    .preview-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+    }
+    .preview-card:hover::after { transform: scaleX(1); }
+    .preview-icon { font-size: 2rem; margin-bottom: 18px; display: block; }
+    .preview-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+    .preview-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.65; }
+    .preview-arrow {
+      position: absolute; top: 36px; right: 36px;
+      font-family: 'Space Mono', monospace; font-size: 0.8rem;
+      color: var(--border); transition: color 0.3s;
+    }
+    .preview-card:hover .preview-arrow { color: var(--accent); }
+
+    /* FEATURED SECTION */
+    .feature-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      background: var(--border);
+    }
+    .feature-block {
+      background: var(--card); padding: 64px 52px;
+      position: relative; overflow: hidden;
+    }
+    .feature-block.dark { background: var(--surface); }
+    .feature-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      color: var(--accent3); letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .feature-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent3); }
+    .feature-block h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+    .feature-block p { color: var(--muted); line-height: 1.8; font-size: 0.93rem; margin-bottom: 28px; }
+    .event-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .event-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .event-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .event-date {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      color: var(--accent); letter-spacing: 0.1em; flex-shrink: 0;
+      padding-top: 2px; min-width: 60px;
+    }
+    .event-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .event-meta { font-size: 0.8rem; color: var(--muted); }
+
+    /* TEAM PREVIEW */
+    .team-preview {
+      display: flex; gap: 2px; background: var(--border);
+    }
+    .tp-card {
+      background: var(--card); flex: 1; padding: 36px 28px;
+      transition: background 0.3s; text-align: center;
+    }
+    .tp-card:hover { background: var(--surface); }
+    .tp-avatar {
+      font-size: 2.4rem; width: 64px; height: 64px;
+      border-radius: 50%; background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .tp-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .tp-role {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: var(--card); border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; position: relative; overflow: hidden; z-index: 1;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    }
+    .cta-text h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-text p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; max-width: 440px; }
+
+    @media(max-width:900px){
+      .home-hero { padding: 0 24px; min-height: 80vh; }
+      .scroll-hint { left: 24px; }
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      .services-preview { grid-template-columns: 1fr; }
+      .feature-split { grid-template-columns: 1fr; }
+      .team-preview { flex-wrap: wrap; }
+      .cta-banner { flex-direction: column; padding: 48px 24px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
-<header>
-    <h1>Informatics</h1>
-    <p>Innovative Technology for the Future</p>
-</header>
-
-<nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="team.html">Team</a>
-    <a href="contact.html">Contact</a>
-</nav>
-
-<section>
-    <h2>Welcome to Informatics</h2>
-    <p>
-        Informatics is a fictional technology company created for our 
-        Software Engineering Lab project. Our mission is to provide innovative 
-        software solutions, modern web applications, and reliable IT services 
-        for businesses and individuals.
-    </p>
-
-    <p>
-        Our team focuses on web development, cloud technologies, artificial 
-        intelligence solutions, and modern software engineering practices.
-    </p>
-</section>
-
-<section>
-    <h2>What We Do</h2>
-    <ul>
-        <li>Web Application Development</li>
-        <li>Mobile App Development</li>
-        <li>Cloud Solutions</li>
-        <li>Artificial Intelligence Systems</li>
-        <li>Software Consulting</li>
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <div class="nav-dot"></div>
+      <span>INFO</span>MATICS<span>_CLUB</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
-</section>
+  </nav>
 
-<footer>
-    <p>© 2026 Informatics</p>
-</footer>
+  <!-- HOME HERO -->
+  <section class="home-hero">
+    <div class="hero-tag" style="opacity:0;animation:fadeUp 0.7s 0.1s forwards;">Student Tech Community</div>
+    <h1>Build.<br/>Learn.<br/><em>Compete.</em></h1>
+    <p class="subtitle">
+      Informatics Club is a student-led community where curious minds explore computer science, collaborate on real projects, and compete on the world stage.
+    </p>
+    <div class="cta-row">
+      <a href="contact.html" class="btn btn-primary">→ Join the Club</a>
+      <a href="about.html" class="btn btn-outline">Discover More</a>
+    </div>
+    <div class="scroll-hint">Scroll to explore</div>
+  </section>
 
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-item"><div class="stat-num">120+</div><div class="stat-label">Active Members</div></div>
+    <div class="stat-item"><div class="stat-num">40+</div><div class="stat-label">Events per Year</div></div>
+    <div class="stat-item"><div class="stat-num">15</div><div class="stat-label">Awards Won</div></div>
+    <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Years Running</div></div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Algorithms</span>
+      <span class="marquee-item">Web Development</span>
+      <span class="marquee-item">Machine Learning</span>
+      <span class="marquee-item">Cybersecurity</span>
+      <span class="marquee-item">Cloud Computing</span>
+      <span class="marquee-item">Data Science</span>
+      <span class="marquee-item">Hackathons</span>
+      <span class="marquee-item">Open Source</span>
+      <span class="marquee-item">Algorithms</span>
+      <span class="marquee-item">Web Development</span>
+      <span class="marquee-item">Machine Learning</span>
+      <span class="marquee-item">Cybersecurity</span>
+      <span class="marquee-item">Cloud Computing</span>
+      <span class="marquee-item">Data Science</span>
+      <span class="marquee-item">Hackathons</span>
+      <span class="marquee-item">Open Source</span>
+    </div>
+  </div>
+
+  <!-- SERVICES PREVIEW -->
+  <div class="section" style="margin-top:80px;">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>What We Offer</h2>
+    </div>
+    <div class="services-preview">
+      <a class="preview-card" href="services.html">
+        <span class="preview-arrow">↗</span>
+        <span class="preview-icon">🧠</span>
+        <h3>Algorithm Training</h3>
+        <p>Weekly structured sessions from fundamentals to competitive programming.</p>
+      </a>
+      <a class="preview-card" href="services.html">
+        <span class="preview-arrow">↗</span>
+        <span class="preview-icon">🤖</span>
+        <h3>AI & Machine Learning</h3>
+        <p>Hands-on ML projects using Python, TensorFlow and real-world datasets.</p>
+      </a>
+      <a class="preview-card" href="services.html">
+        <span class="preview-arrow">↗</span>
+        <span class="preview-icon">🔐</span>
+        <h3>Cybersecurity</h3>
+        <p>CTF challenges, ethical hacking basics, and network security fundamentals.</p>
+      </a>
+      <a class="preview-card" href="services.html">
+        <span class="preview-arrow">↗</span>
+        <span class="preview-icon">🛠️</span>
+        <h3>Web Development</h3>
+        <p>Modern frontend and backend workshops through project-based learning.</p>
+      </a>
+      <a class="preview-card" href="services.html">
+        <span class="preview-arrow">↗</span>
+        <span class="preview-icon">☁️</span>
+        <h3>Cloud & DevOps</h3>
+        <p>AWS, Docker, CI/CD pipelines — skills companies actively hire for.</p>
+      </a>
+      <a class="preview-card" href="services.html">
+        <span class="preview-arrow">↗</span>
+        <span class="preview-icon">📊</span>
+        <h3>Data Science</h3>
+        <p>From raw data to insights — Pandas, visualization, and SQL pipelines.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- EVENTS + ABOUT SPLIT -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Latest & Upcoming</h2>
+    </div>
+    <div class="feature-split">
+      <div class="feature-block">
+        <div class="feature-eyebrow">Upcoming Events</div>
+        <ul class="event-list">
+          <li class="event-item">
+            <span class="event-date">APR 12</span>
+            <div><div class="event-name">InfoHack 2026 — Kickoff</div><div class="event-meta">48-hour hackathon · All levels</div></div>
+          </li>
+          <li class="event-item">
+            <span class="event-date">APR 19</span>
+            <div><div class="event-name">ML Workshop: Neural Nets</div><div class="event-meta">Intermediate · Room B-204</div></div>
+          </li>
+          <li class="event-item">
+            <span class="event-date">APR 26</span>
+            <div><div class="event-name">CTF Competition Night</div><div class="event-meta">Team event · Cybersecurity track</div></div>
+          </li>
+          <li class="event-item">
+            <span class="event-date">MAY 3</span>
+            <div><div class="event-name">Industry Talk: Cloud at Scale</div><div class="event-meta">Guest speaker · Open to all</div></div>
+          </li>
+        </ul>
+      </div>
+      <div class="feature-block dark">
+        <div class="feature-eyebrow">Who We Are</div>
+        <h3>A community built by students, for students.</h3>
+        <p>Founded six years ago, Informatics Club has grown into one of the most active tech communities on campus. We bridge the gap between coursework and industry-level skills.</p>
+        <a href="about.html" class="btn btn-outline">Read Our Story →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM PREVIEW -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Meet the Leaders</h2>
+    </div>
+    <div class="team-preview">
+      <div class="tp-card"><div class="tp-avatar">👩‍💻</div><div class="tp-name">Ayşe Kaya</div><div class="tp-role">President</div></div>
+      <div class="tp-card"><div class="tp-avatar">🧑‍🔬</div><div class="tp-name">Emre Demir</div><div class="tp-role">Technical Lead</div></div>
+      <div class="tp-card"><div class="tp-avatar">👩‍🎨</div><div class="tp-name">Zeynep Arslan</div><div class="tp-role">Events Lead</div></div>
+      <div class="tp-card"><div class="tp-avatar">🧑‍💼</div><div class="tp-name">Can Yıldız</div><div class="tp-role">Treasurer</div></div>
+      <div class="tp-card"><div class="tp-avatar">👩‍🏫</div><div class="tp-name">Selin Çelik</div><div class="tp-role">Secretary</div></div>
+    </div>
+    <div style="margin-top:24px;"><a href="team.html" class="btn btn-outline">View Full Team →</a></div>
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <div class="cta-text">
+      <h2>Ready to join us?</h2>
+      <p>Membership is free and open to all students. Show up once — we think you'll stay.</p>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="contact.html" class="btn btn-primary">→ Get in Touch</a>
+      <a href="services.html" class="btn btn-outline">Explore Services</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <strong>Informatics Club</strong> — Building the next generation of problem solvers.<br/>
+      <span style="margin-top:4px;display:block;">© 2026 · All rights reserved</span>
+    </div>
+    <div class="footer-socials">
+      <a class="social-link" href="#" title="GitHub">GH</a>
+      <a class="social-link" href="#" title="LinkedIn">LI</a>
+      <a class="social-link" href="#" title="Instagram">IG</a>
+      <a class="social-link" href="#" title="Discord">DC</a>
+    </div>
+  </footer>
 </body>
 </html>
+-
