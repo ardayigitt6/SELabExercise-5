@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — Informatics Club</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; background: var(--border);
+    }
+    .service-card {
+      background: var(--card); padding: 44px 36px;
+      position: relative; overflow: hidden; transition: background 0.3s; cursor: default;
+    }
+    .service-card:hover { background: var(--surface); }
+    .service-card::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      transform:scaleX(0); transition:transform 0.3s; transform-origin:left;
+    }
+    .service-card:hover::after { transform:scaleX(1); }
+    .service-icon { font-size:2.2rem; margin-bottom:22px; display:block; }
+    .service-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:14px; }
+    .service-card p { color:var(--muted); line-height:1.75; font-size:0.92rem; }
+
+    .featured-service {
+      background:var(--card); border:1px solid var(--border);
+      display:grid; grid-template-columns:1fr 1fr; overflow:hidden;
+    }
+    .featured-content { padding:56px 52px; }
+    .featured-label {
+      font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--accent3);
+      letter-spacing:0.18em; text-transform:uppercase; margin-bottom:20px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .featured-label::before { content:''; width:24px; height:1px; background:var(--accent3); }
+    .featured-content h3 { font-size:1.8rem; font-weight:800; margin-bottom:20px; line-height:1.2; }
+    .featured-content p { color:var(--muted); line-height:1.8; font-size:0.95rem; margin-bottom:16px; }
+    .featured-visual {
+      background:var(--surface); display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden; border-left:1px solid var(--border);
+    }
+    .featured-visual::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(circle at center, rgba(0,229,255,0.08) 0%, transparent 70%);
+    }
+    .terminal {
+      font-family:'Space Mono',monospace; font-size:0.78rem; color:var(--accent3);
+      width:80%; padding:32px; background:rgba(10,13,20,0.7);
+      border:1px solid var(--border); border-radius:4px; line-height:1.9; position:relative; z-index:1;
+    }
+    .terminal-bar { display:flex; gap:8px; margin-bottom:20px; }
+    .t-dot { width:10px; height:10px; border-radius:50%; }
+    .t-dot:nth-child(1){background:#ff5f57} .t-dot:nth-child(2){background:#febc2e} .t-dot:nth-child(3){background:#28c840}
+    .terminal .cmd { color:var(--accent); }
+    .terminal .out { color:var(--accent3); }
+    .terminal .comment { color:#3a4a6a; }
+    .cursor { display:inline-block; width:8px; height:14px; background:var(--accent); animation:blink 1s infinite; vertical-align:middle; }
+
+    .process-steps { display:flex; gap:2px; background:var(--border); }
+    .process-step {
+      background:var(--card); flex:1; padding:40px 32px;
+      position:relative; transition:background 0.3s;
+    }
+    .process-step:hover { background:var(--surface); }
+    .step-num { font-family:'Space Mono',monospace; font-size:2.5rem; font-weight:700; color:var(--border); margin-bottom:16px; transition:color 0.3s; }
+    .process-step:hover .step-num { color:var(--accent); }
+    .process-step h4 { font-size:1rem; font-weight:700; margin-bottom:12px; }
+    .process-step p { color:var(--muted); font-size:0.88rem; line-height:1.65; }
+    .step-arrow { position:absolute; right:-1px; top:50%; transform:translateY(-50%); font-family:'Space Mono',monospace; font-size:0.8rem; color:var(--accent); z-index:2; }
+    .process-step:last-child .step-arrow { display:none; }
+
+    .tools-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:var(--border); }
+    .tool-item {
+      background:var(--card); padding:32px 28px;
+      display:flex; flex-direction:column; gap:12px;
+      transition:background 0.3s;
+    }
+    .tool-item:hover { background:var(--surface); }
+    .tool-icon { font-size:1.8rem; }
+    .tool-name { font-weight:700; font-size:0.95rem; }
+    .tool-type { font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:0.1em; text-transform:uppercase; }
+
+    .cta-block {
+      background:var(--card); border:1px solid var(--border);
+      padding:64px; display:flex; align-items:center; justify-content:space-between;
+      gap:40px; position:relative; overflow:hidden;
+    }
+    .cta-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3)); }
+    .cta-content h3 { font-size:1.8rem; font-weight:800; margin-bottom:12px; }
+    .cta-content p { color:var(--muted); font-size:0.95rem; line-height:1.6; max-width:460px; }
+
+    @media(max-width:900px){
+      .services-grid { grid-template-columns:1fr; }
+      .featured-service { grid-template-columns:1fr; }
+      .featured-visual { min-height:260px; }
+      .process-steps { flex-direction:column; }
+      .step-arrow { display:none; }
+      .tools-grid { grid-template-columns:1fr 1fr; }
+      .cta-block { flex-direction:column; padding:36px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <nav>
+    <a class="nav-logo" href="index.html"><div class="nav-dot"></div><span>INFO</span>MATICS<span>_CLUB</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">What we offer</div>
+    <h1>Our<br/><em>Services</em></h1>
+    <p class="hero-desc">From beginner workshops to advanced research tracks, we offer a full spectrum of programs designed to develop real skills, build portfolios, and connect members with the tech industry.</p>
+  </section>
+
+  <div class="section">
+    <div class="section-head"><span class="section-num">01</span><h2>Core Programs</h2></div>
+    <div class="services-grid">
+      <div class="service-card"><span class="service-icon">🧠</span><h3>Algorithm Training</h3><p>Structured weekly sessions covering data structures, algorithms, and competitive problem-solving. From arrays to dynamic programming — all levels welcome.</p><div class="tags" style="margin-top:22px;"><span class="tag">Beginner</span><span class="tag">Advanced</span><span class="tag">Weekly</span></div></div>
+      <div class="service-card"><span class="service-icon">🛠️</span><h3>Web Development</h3><p>Hands-on workshops covering modern frontend and backend development. Learn HTML, CSS, JavaScript, React, and Node.js through project-based learning.</p><div class="tags" style="margin-top:22px;"><span class="tag">HTML/CSS</span><span class="tag">React</span><span class="tag">Node.js</span></div></div>
+      <div class="service-card"><span class="service-icon">🤖</span><h3>AI & Machine Learning</h3><p>Introductory and intermediate ML sessions. Members learn Python, scikit-learn, and TensorFlow and apply them in mini-projects and research collaborations.</p><div class="tags" style="margin-top:22px;"><span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">Research</span></div></div>
+      <div class="service-card"><span class="service-icon">☁️</span><h3>Cloud & DevOps</h3><p>Practical sessions on cloud platforms (AWS, GCP), containerization with Docker, CI/CD pipelines, and infrastructure-as-code — skills companies actively hire for.</p><div class="tags" style="margin-top:22px;"><span class="tag">AWS</span><span class="tag">Docker</span><span class="tag">CI/CD</span></div></div>
+      <div class="service-card"><span class="service-icon">🔐</span><h3>Cybersecurity</h3><p>CTF training, ethical hacking basics, cryptography workshops, and network security fundamentals. Learn to think like an attacker and defend like a pro.</p><div class="tags" style="margin-top:22px;"><span class="tag">CTF</span><span class="tag">Cryptography</span><span class="tag">Networks</span></div></div>
+      <div class="service-card"><span class="service-icon">📊</span><h3>Data Science</h3><p>From data cleaning to visualization and predictive modeling. Work with real datasets using Pandas, NumPy, Matplotlib, and build end-to-end data pipelines.</p><div class="tags" style="margin-top:22px;"><span class="tag">Pandas</span><span class="tag">Visualization</span><span class="tag">SQL</span></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span class="section-num">02</span><h2>Flagship Event</h2></div>
+    <div class="featured-service">
+      <div class="featured-content">
+        <div class="featured-label">Annual Event</div>
+        <h3>InfoHack — 48-Hour Hackathon</h3>
+        <p>Our biggest event of the year. Teams of 2–4 members compete to build a fully working product in 48 hours around a surprise theme revealed at kickoff.</p>
+        <p>Past themes included: Smart Cities, Health Tech, Sustainable Systems, and Open Source Tooling. Winners receive prizes, mentorship access, and industry recognition.</p>
+        <div class="tags" style="margin-top:24px;"><span class="tag">Teams of 2–4</span><span class="tag">48 Hours</span><span class="tag">Prizes</span><span class="tag">Open to all</span></div>
+      </div>
+      <div class="featured-visual">
+        <div class="terminal">
+          <div class="terminal-bar"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div>
+          <div style="color:#3a4a6a"># InfoHack 2026</div>
+          <div><span class="cmd">$ </span>git init infohack-project</div>
+          <div><span class="out">✓ Initialized repo</span></div>
+          <div>&nbsp;</div>
+          <div><span class="cmd">$ </span>npm install && npm start</div>
+          <div><span class="out">✓ Server running :3000</span></div>
+          <div>&nbsp;</div>
+          <div><span class="cmd">$ </span>git commit -m "🚀 launch"</div>
+          <div><span class="out">✓ 47:58 remaining</span></div>
+          <div>&nbsp;</div>
+          <div><span class="cmd">$ </span><span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span class="section-num">03</span><h2>How It Works</h2></div>
+    <div class="process-steps">
+      <div class="process-step"><div class="step-num">01</div><h4>Join the Club</h4><p>Sign up through our website or at one of our info sessions. Membership is free and open to all students.</p><span class="step-arrow">→</span></div>
+      <div class="process-step"><div class="step-num">02</div><h4>Pick Your Track</h4><p>Choose from our program tracks based on your interest — or attend multiple. No prerequisites required.</p><span class="step-arrow">→</span></div>
+      <div class="process-step"><div class="step-num">03</div><h4>Learn & Build</h4><p>Attend sessions, complete projects, and collaborate with peers. Mentors are always available to guide you.</p><span class="step-arrow">→</span></div>
+      <div class="process-step"><div class="step-num">04</div><h4>Compete & Showcase</h4><p>Enter competitions, demo your projects, and build a portfolio that gets you noticed by employers and universities.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span class="section-num">04</span><h2>Tools We Use</h2></div>
+    <div class="tools-grid">
+      <div class="tool-item"><span class="tool-icon">🐍</span><span class="tool-name">Python</span><span class="tool-type">Language</span></div>
+      <div class="tool-item"><span class="tool-icon">⚛️</span><span class="tool-name">React</span><span class="tool-type">Frontend</span></div>
+      <div class="tool-item"><span class="tool-icon">🐙</span><span class="tool-name">GitHub</span><span class="tool-type">Version Control</span></div>
+      <div class="tool-item"><span class="tool-icon">🐳</span><span class="tool-name">Docker</span><span class="tool-type">DevOps</span></div>
+      <div class="tool-item"><span class="tool-icon">🧮</span><span class="tool-name">TensorFlow</span><span class="tool-type">ML / AI</span></div>
+      <div class="tool-item"><span class="tool-icon">☁️</span><span class="tool-name">AWS</span><span class="tool-type">Cloud</span></div>
+      <div class="tool-item"><span class="tool-icon">🗄️</span><span class="tool-name">PostgreSQL</span><span class="tool-type">Database</span></div>
+      <div class="tool-item"><span class="tool-icon">🔒</span><span class="tool-name">Kali Linux</span><span class="tool-type">Security</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="cta-block">
+      <div class="cta-content"><h3>Ready to get started?</h3><p>Join over 120 members already learning, building, and competing. Registration is always open — start anytime.</p></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn-primary">→ Join Now</a>
+        <a href="about.html" class="btn btn-outline">Learn More</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left"><strong>Informatics Club</strong> — Building the next generation of problem solvers.<br/><span style="margin-top:4px;display:block;">© 2026 · All rights reserved</span></div>
+    <div class="footer-socials">
+      <a class="social-link" href="#" title="GitHub">GH</a>
+      <a class="social-link" href="#" title="LinkedIn">LI</a>
+      <a class="social-link" href="#" title="Instagram">IG</a>
+      <a class="social-link" href="#" title="Discord">DC</a>
+    </div>
+  </footer>
+</body>
+</html>
