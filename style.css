@@ -1,0 +1,180 @@
+/* ============================================
+   INFORMATICS CLUB — SHARED STYLESHEET
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg: #0a0d14;
+  --surface: #111520;
+  --card: #161c2d;
+  --border: #1f2a45;
+  --accent: #00e5ff;
+  --accent2: #7b5cfa;
+  --accent3: #00ff99;
+  --text: #e8edf5;
+  --muted: #7a85a0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none; z-index: 0;
+}
+
+.blob {
+  position: fixed; border-radius: 50%;
+  filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.18;
+}
+.blob-1 { width: 520px; height: 520px; background: var(--accent2); top: -100px; right: -100px; }
+.blob-2 { width: 400px; height: 400px; background: var(--accent); bottom: 0; left: -80px; }
+
+/* ---- NAV ---- */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 60px;
+  background: rgba(10,13,20,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Space Mono', monospace; font-size: 1rem;
+  color: var(--accent); letter-spacing: 0.05em;
+  text-decoration: none; display: flex; align-items: center; gap: 10px;
+}
+.nav-logo span { color: var(--text); }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--muted); font-size: 0.9rem;
+  font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+/* ---- HERO ---- */
+.hero {
+  position: relative; z-index: 1;
+  padding: 120px 60px 80px;
+  max-width: 1100px; margin: 0 auto;
+}
+.hero-tag {
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
+  color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+}
+.hero-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+.hero h1 {
+  font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 800;
+  line-height: 1.05; letter-spacing: -0.02em;
+  opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-desc {
+  margin-top: 28px; max-width: 580px;
+  font-size: 1.1rem; color: var(--muted); line-height: 1.75; font-weight: 400;
+  opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
+}
+.hero-cta {
+  margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.7s 0.6s forwards;
+}
+
+/* ---- BUTTONS ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: 4px;
+  font-family: 'Space Mono', monospace; font-size: 0.8rem;
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border: none; transition: all 0.25s;
+}
+.btn-primary { background: var(--accent); color: var(--bg); box-shadow: 0 0 24px rgba(0,229,255,0.35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,229,255,0.55); }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+/* ---- SECTION ---- */
+.section {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto 100px; padding: 0 60px;
+}
+.section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 48px; }
+.section-head h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+.section-num {
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
+  color: var(--accent); border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: 2px; letter-spacing: 0.1em;
+}
+
+/* ---- TAGS ---- */
+.tag {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.06em; padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 2px;
+  color: var(--muted); background: var(--surface);
+}
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+/* ---- FOOTER ---- */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 48px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1100px; margin: 0 auto;
+}
+.footer-left { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+.footer-left strong { color: var(--text); }
+.footer-socials { display: flex; gap: 16px; }
+.social-link {
+  width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); text-decoration: none; font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%,100%{ opacity:1; transform:scale(1) }
+  50%{ opacity:0.5; transform:scale(1.4) }
+}
+@keyframes blink {
+  0%,49%{opacity:1} 50%,100%{opacity:0}
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 0.75rem; }
+  .hero, .section { padding-left: 24px; padding-right: 24px; }
+  footer { flex-direction: column; gap: 24px; text-align: center; padding: 32px 24px; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+}
